@@ -1,0 +1,32 @@
+{
+  "version": "1.0.0-*",
+  "description": "YaaS Microservice Patterns for ASP.NET Core",
+  "authors": [
+    "Robert Schmid"
+  ],
+  "tags": [
+    ""
+  ],
+  "projectUrl": "",
+  "licenseUrl": "",
+  "tooling": {
+    "defaultNamespace": "YaasServicePatterns"
+  },
+  "frameworks": {
+    "dnxcore50": {
+      "dependencies": {
+        "System.Collections.Specialized": "4.0.1-beta-23516"
+      }
+    }
+  },
+  "dependencies": {
+    "Newtonsoft.Json": "8.0.1",
+    "Nito.AsyncEx": "3.0.1",
+    "System.Net.Http": "4.0.1-beta-23516",
+    "Microsoft.Extensions.Logging": "1.0.0-rc1-final",
+    "Microsoft.Extensions.OptionsModel": "1.0.0-rc1-final",
+    "Microsoft.AspNet.Mvc": "6.0.0-rc1-final",
+    "Microsoft.AspNet.StaticFiles": "1.0.0-rc1-final",
+    "System.Runtime.Extensions": "4.0.11-rc2-23623"
+  }
+}
