@@ -1,0 +1,8 @@
+{
+  "name": "wishlist",
+  "private": true,
+  "dependencies": {
+    "api-console": "~2.0.5"
+  },
+  "exportsOverride": {}
+}
