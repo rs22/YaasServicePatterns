@@ -56,9 +56,11 @@ namespace Wishlist.Controllers
             if (!await _authorization.AuthorizeAsync(User, yaasParameters, WishlistOperations.ViewScopeRequired))
                 return HttpUnauthorized();
             
-            var result = await _documentService.GetDocumentByIdAsync<Model.Wishlist>(WishlistCollection, wishlistId, new WishlistQueryParameters());
+            var result = await _documentService.GetDocumentByIdAsync<Model.Wishlist>(WishlistCollection, 
+                                                                                     wishlistId, 
+                                                                                     new WishlistQueryParameters());
             
-            // The parameter list and the end indicates which kinds of HTTP errors should be 
+            // The parameter list at the end indicates which kinds of HTTP errors should be 
             // propagated from the document service result. Anything else will cause an exception
             // to be thrown. This way all possible errors are spec'ed in the action method.
             return new ServiceActionResult<Model.Wishlist>(result, HttpStatusCode.OK, HttpStatusCode.NotFound);
@@ -74,7 +76,9 @@ namespace Wishlist.Controllers
                 return HttpBadRequest(ModelState);
                 
             var result = await _documentService.CreateDocumentAsync(WishlistCollection, wishlist);
-            return new ServiceActionResult<ResourceLocation>(result, HttpStatusCode.Created, HttpStatusCode.Conflict, HttpStatusCode.Unauthorized);
+            return new ServiceActionResult<ResourceLocation>(result, HttpStatusCode.Created, 
+                                                                     HttpStatusCode.Conflict,
+                                                                     HttpStatusCode.Unauthorized);
         }
 
         [HttpPut("{wishlistId}")]
@@ -90,8 +94,14 @@ namespace Wishlist.Controllers
             // We have to clear the id from the update payload, otherwise the document service complains
             wishlist.Id = null;
             
-            var result = await _documentService.UpdateDocumentByIdAsync<Model.Wishlist>(WishlistCollection, wishlistId, wishlist, new WishlistQueryParameters());
-            return new ServiceActionResult<Model.Wishlist>(result, HttpStatusCode.OK, HttpStatusCode.NotFound, HttpStatusCode.Unauthorized);
+            var result = await _documentService.UpdateDocumentByIdAsync<Model.Wishlist>(WishlistCollection, 
+                                                                                        wishlistId, 
+                                                                                        wishlist, 
+                                                                                        new WishlistQueryParameters());
+                                                                                        
+            return new ServiceActionResult<Model.Wishlist>(result, HttpStatusCode.OK, 
+                                                                   HttpStatusCode.NotFound, 
+                                                                   HttpStatusCode.Unauthorized);
         }
 
         [HttpPut("{wishlistId}")]
@@ -100,8 +110,13 @@ namespace Wishlist.Controllers
             if (!await _authorization.AuthorizeAsync(User, yaasParameters, WishlistOperations.ManageScopeRequired))
                 return HttpUnauthorized();
                 
-            var result = await _documentService.DeleteDocumentByIdAsync(WishlistCollection, wishlistId, new WishlistQueryParameters());
-            return new ServiceActionResult(result, HttpStatusCode.NoContent, HttpStatusCode.NotFound, HttpStatusCode.Unauthorized);
+            var result = await _documentService.DeleteDocumentByIdAsync(WishlistCollection, 
+                                                                        wishlistId, 
+                                                                        new WishlistQueryParameters());
+                                                                        
+            return new ServiceActionResult(result, HttpStatusCode.NoContent, 
+                                                   HttpStatusCode.NotFound, 
+                                                   HttpStatusCode.Unauthorized);
         }
     }
 }
