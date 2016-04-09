@@ -22,9 +22,13 @@ resourceTypes:
   - !include https://api.yaas.io/patterns/v2/resource-type-element.yaml
   - !include https://api.yaas.io/patterns/v1/resource-type-collection.yaml
 
-/wishlists:
+/{tenant}/wishlists:
   type: collection
   is: [yaasAware]
+  uriParameters:
+    tenant:
+      type: string
+      required: true
   get:
     description: Gets all wishlists
     is: [paged, countable, sortable, queryable, projectable]

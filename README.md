@@ -19,5 +19,7 @@ The obligatory Wishlist example is included, featuring
     even better - using the user-secret tool (Yaas:ClientID, Yaas:ClientSecret).
     Also provide your service identifier in the appsettings.json.
  3. `npm install && gulp api`
- 4. `dnu restore && dnx web`
+ 4. `dnu restore && dnx web` 
+    (Note: to disable basic authentication during development,
+    please make sure that ASPNET_ENV=Development is set in the environment)
  5. The API console should be available at [localhost:5000](http://localhost:5000)
