@@ -19,5 +19,5 @@ install:
 script:
   - pushd YaasServicePatterns && dotnet pack -c Release && popd
 
-deploy:
-  - nuget push YaasServicePatterns/bin/Release/YaasServicePatterns.0.0.1-beta.nupkg $NUGET_API_KEY -Source https://www.nuget.org/api/v2/package
+after_success:
+  "nuget push YaasServicePatterns/bin/Release/YaasServicePatterns.0.0.1-beta.nupkg $NUGET_API_KEY -Source https://www.nuget.org/api/v2/package"
