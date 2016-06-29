@@ -1,3 +1,5 @@
+using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
 using YaasServicePatterns.PatternSupport;
@@ -11,13 +13,13 @@ namespace YaasServicePatterns.AspNetCore.Authorization {
             _logger = logger;
         }
 
-        protected override void Handle(AuthorizationContext context, YaasParameterRequirement requirement, YaasAwareParameters resource)
+        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, YaasParameterRequirement requirement, YaasAwareParameters resource)
         {
             if (requirement.IsTenantAware) {
                 if (!context.User.HasClaim(x => x.Type == "HybrisTenant" && x.Value == resource.tenant)) {
                     _logger.LogInformation("Authorization failed because of invalid hybris-tenant");
                     context.Fail();
-                    return;
+                    return Task.CompletedTask;
                 }
             }
 
@@ -25,7 +27,7 @@ namespace YaasServicePatterns.AspNetCore.Authorization {
                 if (!context.User.HasClaim(x => x.Type == "HybrisClient" && x.Value == resource.client)) {
                     _logger.LogInformation("Authorization failed because of invalid hybris-client");
                     context.Fail();
-                    return;
+                    return Task.CompletedTask;
                 }
             }
 
@@ -36,7 +38,7 @@ namespace YaasServicePatterns.AspNetCore.Authorization {
                 if (!isRequestedUser && !hasFallbackScope) {
                     _logger.LogInformation("Authorization failed because of invalid hybris-user");
                     context.Fail();
-                    return;
+                    return Task.CompletedTask;
                 }
             }
 
@@ -44,12 +46,12 @@ namespace YaasServicePatterns.AspNetCore.Authorization {
                 if (!context.User.HasClaim(x => x.Type == "HybrisScope" && x.Value == requirement.RequiredScope)) {
                     _logger.LogInformation("Authorization failed because of missing hybris-scope");
                     context.Fail();
-                    return;
+                    return Task.CompletedTask;
                 }
             }
 
             context.Succeed(requirement);
+            return Task.CompletedTask;
         }
-
     }
 }
