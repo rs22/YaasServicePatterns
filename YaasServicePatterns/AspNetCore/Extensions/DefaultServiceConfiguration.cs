@@ -1,11 +1,11 @@
-using Microsoft.AspNet.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
-using YaasServicePatterns.AspNet.Authorization;
+using YaasServicePatterns.AspNetCore.Authorization;
 using YaasServicePatterns.PatternSupport;
 using YaasServicePatterns.ServiceClients.Common;
 using YaasServicePatterns.ServiceClients.Document;
 
-namespace YaasServicePatterns.AspNet.Extensions
+namespace YaasServicePatterns.AspNetCore.Extensions
 {
     public static class DefaultServiceConfiguration {
         public static void AddDefaultYaasServices(this IServiceCollection services) {

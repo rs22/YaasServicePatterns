@@ -1,13 +1,13 @@
 using System;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNet.Builder;
-using Microsoft.AspNet.Hosting;
-using Microsoft.AspNet.Http;
-using Microsoft.AspNet.StaticFiles;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Configuration;
 
-namespace YaasServicePatterns.AspNet.Extensions
+namespace YaasServicePatterns.AspNetCore.Extensions
 {
     public static class DefaultServiceMiddlewareExtensions {
         public static IApplicationBuilder UseDefaultServiceMiddleware(this IApplicationBuilder builder, IHostingEnvironment env, IConfigurationRoot configuration)
@@ -23,10 +23,10 @@ namespace YaasServicePatterns.AspNet.Extensions
                 } else {
                     context.Items.Add("ApiProxyRequest", false);
                 }
-                
+
                 await next();
             });
-            
+
             if (!env.IsDevelopment()) {
                 // Enforce HTTPS
                 builder.Use(async (context, next) =>
@@ -36,13 +36,13 @@ namespace YaasServicePatterns.AspNet.Extensions
                         await next();
                         return;
                     }
-                    
+
                     context.Response.OnStarting(() => {
                         context.Response.StatusCode = 400;
                         return Task.FromResult(0);
                     });
                 });
-                
+
                 // Authenticate Requests
                 builder.Use(async (context, next) =>
                 {
@@ -58,31 +58,31 @@ namespace YaasServicePatterns.AspNet.Extensions
                             return;
                         }
                     }
-                    
+
                     context.Response.OnStarting(() => {
                         context.Response.StatusCode = 403;
                         return Task.FromResult(0);
                     });
                 });
             }
-            
+
             // Redirect from the root path to either the external or internal API documentation
             builder.Use(async (context, next) =>
             {
                 if (context.Request.Path == "/") {
                     var ramlRoot = "api/api.raml";
-                    
+
                     if (context.Items.ContainsKey("ApiProxyRequest") && !(bool)context.Items["ApiProxyRequest"]) {
                         ramlRoot = "api/api.internal.raml";
                     }
-                    
+
                     var baseUri = new Uri(context.Request.GetBaseUrl().ToString().TrimEnd('/') + "/");
                     context.Response.Redirect(new Uri(baseUri, "api-console/index.html?raml=" + ramlRoot).ToString());
                 } else {
                     await next.Invoke();
                 }
             });
-            
+
             // Rewrite the base uri in RAML files
             builder.UseRamlRewriterForUrlPrefix("/api-console/api/");
 
@@ -90,9 +90,9 @@ namespace YaasServicePatterns.AspNet.Extensions
             var provider = new FileExtensionContentTypeProvider();
             provider.Mappings.Add(".raml", "text/plain");
             builder.UseStaticFiles(new StaticFileOptions { ContentTypeProvider = provider });
-            
+
             builder.UseYaasAuthentication();
-            
+
             return builder;
         }
     }

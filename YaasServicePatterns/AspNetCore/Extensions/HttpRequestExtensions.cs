@@ -1,7 +1,7 @@
 using System;
-using Microsoft.AspNet.Http;
+using Microsoft.AspNetCore.Http;
 
-namespace YaasServicePatterns.AspNet.Extensions
+namespace YaasServicePatterns.AspNetCore.Extensions
 {
     internal static class HttpRequestExtensions {
         public static Uri GetBaseUrl(this HttpRequest request) {

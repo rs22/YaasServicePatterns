@@ -1,21 +1,21 @@
-using Microsoft.AspNet.Http;
+using Microsoft.AspNetCore.Http;
 using YaasServicePatterns.PatternSupport;
 
-namespace YaasServicePatterns.AspNet.Extensions
+namespace YaasServicePatterns.AspNetCore.Extensions
 {
     public class HttpYaasContextAccessor : IYaasContextAccessor {
         private readonly IHttpContextAccessor _httpContext;
         private YaasContext _yaasContext;
-        
+
         public YaasContext YaasContext {
             get {
                 if (_yaasContext == null) {
-                    
+
                     var request = _httpContext.HttpContext.Request;
-                    
+
                     var hybrisHop = 1; // Default value
                     int.TryParse(request.Headers["hybris-hop"], out hybrisHop);
-                    
+
                     _yaasContext = new YaasContext {
                         HybrisHop = hybrisHop,
                         HybrisTenant = request.Headers["hybris-tenant"],
@@ -28,7 +28,7 @@ namespace YaasServicePatterns.AspNet.Extensions
                 return _yaasContext;
             }
         }
-        
+
         public HttpYaasContextAccessor(IHttpContextAccessor httpContext) {
             _httpContext = httpContext;
         }
