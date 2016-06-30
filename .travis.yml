@@ -23,4 +23,4 @@ script:
   - pushd src/YaasServicePatterns && dotnet pack -c Release && popd
 
 after_success:
-  "nuget push src/YaasServicePatterns/bin/Release/YaasServicePatterns.0.0.1-beta-$DOTNET_BUILD_VERSION.nupkg $NUGET_API_KEY -Source https://www.nuget.org/api/v2/package"
+  "nuget push src/YaasServicePatterns/bin/Release/YaasServicePatterns.0.0.2-beta-$DOTNET_BUILD_VERSION.nupkg $NUGET_API_KEY -Source https://www.nuget.org/api/v2/package"
