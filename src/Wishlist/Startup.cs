@@ -1,9 +1,11 @@
-using Microsoft.AspNet.Builder;
-using Microsoft.AspNet.Hosting;
+using System;
+using System.IO;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using YaasServicePatterns.AspNet.Extensions;
+using YaasServicePatterns.AspNetCore.Extensions;
 using YaasServicePatterns.Configuration;
 
 namespace Wishlist
@@ -14,16 +16,16 @@ namespace Wishlist
         {
             // Set up configuration sources.
             var builder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json")
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}", optional: true)
                 .AddEnvironmentVariables();
-                
+
             if (env.IsDevelopment())
             {
-                // For more details on using the user secret store see http://go.microsoft.com/fwlink/?LinkID=532709
                 builder.AddUserSecrets();
             }
-            
+
             Configuration = builder.Build();
         }
 
@@ -45,14 +47,9 @@ namespace Wishlist
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            app.UseIISPlatformHandler();
-
             app.UseDefaultServiceMiddleware(env, Configuration);
 
             app.UseMvc();
         }
-
-        // Entry point for the application.
-        public static void Main(string[] args) => Microsoft.AspNet.Hosting.WebApplication.Run<Startup>(args);
     }
 }

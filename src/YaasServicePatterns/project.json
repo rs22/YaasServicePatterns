@@ -1,5 +1,5 @@
 {
-    "version": "0.0.1-beta",
+    "version": "0.0.1-beta-*",
     "description": "YaaS Microservice Patterns for ASP.NET Core",
     "authors": [
         "Robert Schmid"
@@ -23,5 +23,8 @@
                 "System.Collections.Specialized": "4.0.1"
             }
         }
+    },
+    "buildOptions": {
+        "warningsAsErrors": true
     }
 }

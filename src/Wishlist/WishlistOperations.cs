@@ -1,13 +1,13 @@
-using YaasServicePatterns.AspNet.Authorization;
+using YaasServicePatterns.AspNetCore.Authorization;
 
 namespace Wishlist
 {
     public static class WishlistOperations {
-        public static YaasParameterRequirement ManageScopeRequired = 
+        public static YaasParameterRequirement ManageScopeRequired =
             new YaasParameterRequirement(isTenantAware:true, requiredScope:"demo.wishlist_manage");
-            
-        public static YaasParameterRequirement ViewScopeRequired = 
+
+        public static YaasParameterRequirement ViewScopeRequired =
             new YaasParameterRequirement(isTenantAware:true, requiredScope:"demo.wishlist_view");
-        
+
     }
 }
