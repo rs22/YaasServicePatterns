@@ -30,7 +30,13 @@ namespace YaasServicePatterns.ServiceClients.Common
                 pageResults.EnsureSuccessStatusCode();
 
                 results.AddRange(pageResults.Result);
-                totalCount = totalCount == int.MaxValue ? pageResults.HybrisCount.Value : totalCount;
+
+                // Update total count, if given
+                if (totalCount == int.MaxValue && pageResults.HybrisCount.HasValue) {
+                    totalCount = pageResults.HybrisCount.Value;
+                } else if (pageResults.Result.Count == 0) {
+                    break;
+                }
             }
 
             return ServiceResult<IList<T>>.FromResult(HttpStatusCode.OK, results);

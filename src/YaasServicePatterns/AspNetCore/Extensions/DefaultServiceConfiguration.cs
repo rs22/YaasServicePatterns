@@ -11,6 +11,7 @@ namespace YaasServicePatterns.AspNetCore.Extensions
         public static void AddDefaultYaasServices(this IServiceCollection services) {
             services.AddTransient<YaasClient>();
             services.AddTransient<DocumentServiceClient>();
+            services.AddTransient<CollectionAwareYaasClient>();
             services.AddTransient<IYaasContextAccessor, HttpYaasContextAccessor>();
             services.AddTransient<IOAuthServiceClient, OAuthServiceClient>();
             services.AddSingleton<YaasTokenService>();
