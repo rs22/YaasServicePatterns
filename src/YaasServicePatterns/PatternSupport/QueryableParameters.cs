@@ -24,7 +24,12 @@ namespace YaasServicePatterns.PatternSupport
                 return BuildQueryStringParameter(QueryParameters);
             }
             set {
-                var regex = new Regex("(^|[ \\+])((?<key>\\w+):(?<value>[^\" \\+]*(\"[^\"]*\"[^\" \\+]*)*))");
+                if (string.IsNullOrEmpty(value)) {
+                    QueryParameters = new NameValueCollection();
+                    return;
+                }
+
+                var regex = new Regex("(^|[ \\+])((?<key>[^: ]+):(?<value>[^\" \\+]*(\"[^\"]*\"[^\" \\+]*)*))");
 
                 var matches = regex.Matches(value);
                 if (matches.Count == 0 && !string.IsNullOrEmpty(value)) {

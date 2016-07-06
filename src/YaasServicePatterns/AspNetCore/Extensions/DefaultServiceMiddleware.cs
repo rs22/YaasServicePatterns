@@ -39,7 +39,7 @@ namespace YaasServicePatterns.AspNetCore.Extensions
 
                     context.Response.OnStarting(() => {
                         context.Response.StatusCode = 400;
-                        return Task.FromResult(0);
+                        return Task.CompletedTask;
                     });
                 });
 
@@ -61,7 +61,7 @@ namespace YaasServicePatterns.AspNetCore.Extensions
 
                     context.Response.OnStarting(() => {
                         context.Response.StatusCode = 403;
-                        return Task.FromResult(0);
+                        return Task.CompletedTask;
                     });
                 });
             }
